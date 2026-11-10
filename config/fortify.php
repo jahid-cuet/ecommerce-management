@@ -161,7 +161,7 @@ return [
     */
 
     'features' => [
-        Features::registration(),
+        // Public registration is disabled: admins create shop owner accounts.
         Features::resetPasswords(),
         Features::emailVerification(),
         Features::twoFactorAuthentication([
