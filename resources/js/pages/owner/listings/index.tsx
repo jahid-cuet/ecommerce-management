@@ -1,5 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
-import { BookOpen, Pencil, Trash2 } from 'lucide-react';
+import { BookOpen, ExternalLink, Pencil, Trash2 } from 'lucide-react';
 import ListingController from '@/actions/App/Http/Controllers/Owner/ListingController';
 import ConfirmDeleteDialog from '@/components/confirm-delete-dialog';
 import Heading from '@/components/heading';
@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { formatPrice } from '@/lib/format';
 import owner from '@/routes/owner';
+import store from '@/routes/store';
 import type { ListingListItem, Paginated, ShopSummary } from '@/types';
 
 type Props = {
@@ -32,12 +33,26 @@ export default function ShopListingsIndex({ shop, listings, filters }: Props) {
                         />
                         <ShopStatusBadge active={shop.is_active} />
                     </div>
-                    <Button asChild>
-                        <Link href={owner.shops.catalog(shop.id)}>
-                            <BookOpen />
-                            Add from catalog
-                        </Link>
-                    </Button>
+                    <div className="flex flex-wrap gap-2">
+                        {shop.is_active && (
+                            <Button asChild variant="outline">
+                                <a
+                                    href={store.shops.show.url(shop.slug)}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    <ExternalLink />
+                                    View in store
+                                </a>
+                            </Button>
+                        )}
+                        <Button asChild>
+                            <Link href={owner.shops.catalog(shop.id)}>
+                                <BookOpen />
+                                Add from catalog
+                            </Link>
+                        </Button>
+                    </div>
                 </div>
 
                 {!shop.is_active && (

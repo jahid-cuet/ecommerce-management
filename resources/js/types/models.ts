@@ -74,3 +74,25 @@ export type OwnProductListItem = Pick<
 > & {
     listings_count: number;
 };
+
+export type StoreShop = {
+    name: string;
+    slug: string;
+    description: string | null;
+};
+
+export type StoreShopCard = StoreShop & { listings_count: number };
+
+/** A product as customers see it in one shop: that shop's price and image. */
+export type StoreListing = {
+    id: number;
+    name: string;
+    product_slug: string;
+    price: string;
+    thumbnail_url: string | null;
+    shop: Pick<StoreShop, 'name' | 'slug'>;
+};
+
+export type StoreListingDetail = StoreListing & {
+    description: string | null;
+};
