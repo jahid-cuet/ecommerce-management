@@ -21,3 +21,19 @@ export type ShopListItem = Pick<Shop, 'id' | 'name' | 'slug' | 'is_active'> & {
     owner: OwnerOption;
     created_at: string;
 };
+
+export type Product = {
+    id: number;
+    name: string;
+    description: string | null;
+    price: string;
+    thumbnail_url: string | null;
+};
+
+export type ProductListItem = Pick<
+    Product,
+    'id' | 'name' | 'price' | 'thumbnail_url'
+> & {
+    creator: { name: string; role: string } | null;
+    created_at: string;
+};

@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { LayoutGrid, Store, Users } from 'lucide-react';
+import { LayoutGrid, Package, Store, Users } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -28,6 +28,11 @@ const navItemsByRole: Record<UserRole, NavItem[]> = {
             title: 'Shops',
             href: admin.shops.index(),
             icon: Store,
+        },
+        {
+            title: 'Products',
+            href: admin.products.index(),
+            icon: Package,
         },
         {
             title: 'Shop owners',

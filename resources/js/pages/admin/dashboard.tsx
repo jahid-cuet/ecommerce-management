@@ -1,6 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import type { LucideIcon } from 'lucide-react';
-import { Store, Users } from 'lucide-react';
+import { Package, Store, Users } from 'lucide-react';
 import Heading from '@/components/heading';
 import {
     Card,
@@ -16,6 +16,7 @@ type Props = {
         shopOwners: number;
         shops: number;
         activeShops: number;
+        products: number;
     };
 };
 
@@ -66,6 +67,12 @@ export default function AdminDashboard({ stats }: Props) {
                         hint={`${stats.activeShops} active`}
                         icon={Store}
                         href={admin.shops.index()}
+                    />
+                    <StatCard
+                        label="Catalog products"
+                        value={stats.products}
+                        icon={Package}
+                        href={admin.products.index()}
                     />
                     <StatCard
                         label="Shop owners"

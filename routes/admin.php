@@ -2,6 +2,7 @@
 
 use App\Enums\UserRole;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ShopController;
 use App\Http\Controllers\Admin\ShopOwnerController;
 use App\Models\User;
@@ -20,4 +21,5 @@ Route::middleware(['auth', 'verified', 'role:admin'])
 
         Route::resource('shop-owners', ShopOwnerController::class)->except('show');
         Route::resource('shops', ShopController::class)->except('show');
+        Route::resource('products', ProductController::class)->except('show');
     });

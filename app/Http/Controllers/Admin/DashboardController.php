@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\Shop;
 use App\Models\User;
 use Inertia\Inertia;
@@ -18,6 +19,7 @@ class DashboardController extends Controller
                 'shopOwners' => User::where('role', UserRole::ShopOwner)->count(),
                 'shops' => Shop::count(),
                 'activeShops' => Shop::where('is_active', true)->count(),
+                'products' => Product::count(),
             ],
         ]);
     }
