@@ -46,6 +46,16 @@ const navItemsByRole: Record<UserRole, NavItem[]> = {
             href: owner.dashboard(),
             icon: LayoutGrid,
         },
+        {
+            title: 'My shops',
+            href: owner.shops.index(),
+            icon: Store,
+        },
+        {
+            title: 'My catalog products',
+            href: owner.products.index(),
+            icon: Package,
+        },
     ],
 };
 

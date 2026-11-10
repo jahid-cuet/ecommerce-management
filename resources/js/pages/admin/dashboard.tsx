@@ -1,15 +1,8 @@
-import { Head, Link } from '@inertiajs/react';
-import type { LucideIcon } from 'lucide-react';
+import { Head } from '@inertiajs/react';
 import { Package, Store, Users } from 'lucide-react';
 import Heading from '@/components/heading';
-import {
-    Card,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import StatCard from '@/components/stat-card';
 import admin from '@/routes/admin';
-import type { RouteDefinition } from '@/wayfinder';
 
 type Props = {
     stats: {
@@ -19,37 +12,6 @@ type Props = {
         products: number;
     };
 };
-
-function StatCard({
-    label,
-    value,
-    hint,
-    icon: Icon,
-    href,
-}: {
-    label: string;
-    value: number;
-    hint?: string;
-    icon: LucideIcon;
-    href: RouteDefinition<'get'>;
-}) {
-    return (
-        <Link href={href}>
-            <Card className="h-full transition-colors hover:bg-muted/50">
-                <CardHeader>
-                    <CardDescription className="flex items-center gap-2">
-                        <Icon className="size-4" />
-                        {label}
-                    </CardDescription>
-                    <CardTitle className="text-3xl">{value}</CardTitle>
-                    {hint && (
-                        <p className="text-xs text-muted-foreground">{hint}</p>
-                    )}
-                </CardHeader>
-            </Card>
-        </Link>
-    );
-}
 
 export default function AdminDashboard({ stats }: Props) {
     return (

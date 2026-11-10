@@ -7,8 +7,11 @@ import { Label } from '@/components/ui/label';
 
 type Props = {
     currentUrl?: string | null;
+    /** Shown in the preview when there is no current image, e.g. the catalog thumbnail. */
+    fallbackUrl?: string | null;
     error?: string;
     label?: string;
+    hint?: string;
 };
 
 /**
@@ -16,8 +19,10 @@ type Props = {
  */
 export default function ThumbnailInput({
     currentUrl = null,
+    fallbackUrl = null,
     error,
     label = 'Thumbnail',
+    hint = 'JPG, PNG or WebP, up to 2 MB.',
 }: Props) {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [remove, setRemove] = useState(false);
@@ -30,7 +35,7 @@ export default function ThumbnailInput({
         };
     }, [previewUrl]);
 
-    const shownUrl = previewUrl ?? (remove ? null : currentUrl);
+    const shownUrl = previewUrl ?? (remove ? null : currentUrl) ?? fallbackUrl;
 
     return (
         <div className="grid gap-2">
@@ -54,9 +59,7 @@ export default function ThumbnailInput({
                             );
                         }}
                     />
-                    <p className="text-xs text-muted-foreground">
-                        JPG, PNG or WebP, up to 2 MB.
-                    </p>
+                    <p className="text-xs text-muted-foreground">{hint}</p>
                     {currentUrl && !previewUrl && (
                         <div className="flex items-center gap-2">
                             <Checkbox

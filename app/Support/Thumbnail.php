@@ -37,6 +37,22 @@ class Thumbnail
         return $path;
     }
 
+    /**
+     * Applies a form's thumbnail change and returns the new path.
+     *
+     * A new upload replaces the current file, "remove" clears it, otherwise the current path is kept.
+     */
+    public static function replace(?string $currentPath, ?UploadedFile $upload, bool $remove, string $directory): ?string
+    {
+        if ($upload === null && ! $remove) {
+            return $currentPath;
+        }
+
+        static::delete($currentPath);
+
+        return $upload === null ? null : static::store($upload, $directory);
+    }
+
     public static function delete(?string $path): void
     {
         if ($path !== null) {

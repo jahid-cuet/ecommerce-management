@@ -78,12 +78,12 @@ class ProductController extends Controller
     {
         $product->fill($request->safe()->only(['name', 'description', 'price']));
 
-        if ($request->hasFile('thumbnail') || $request->boolean('remove_thumbnail')) {
-            Thumbnail::delete($product->thumbnail_path);
-            $product->thumbnail_path = $request->hasFile('thumbnail')
-                ? Thumbnail::store($request->file('thumbnail'), self::THUMBNAIL_DIRECTORY)
-                : null;
-        }
+        $product->thumbnail_path = Thumbnail::replace(
+            $product->thumbnail_path,
+            $request->file('thumbnail'),
+            $request->boolean('remove_thumbnail'),
+            self::THUMBNAIL_DIRECTORY,
+        );
 
         $product->save();
 
