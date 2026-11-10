@@ -1,4 +1,4 @@
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { Users } from 'lucide-react';
 import Heading from '@/components/heading';
 import {
@@ -25,17 +25,19 @@ export default function AdminDashboard({ stats }: Props) {
                     description="Manage shops, products and shop owner accounts."
                 />
                 <div className="grid gap-4 md:grid-cols-3">
-                    <Card>
-                        <CardHeader>
-                            <CardDescription className="flex items-center gap-2">
-                                <Users className="size-4" />
-                                Shop owners
-                            </CardDescription>
-                            <CardTitle className="text-3xl">
-                                {stats.shopOwners}
-                            </CardTitle>
-                        </CardHeader>
-                    </Card>
+                    <Link href={admin.shopOwners.index()}>
+                        <Card className="transition-colors hover:bg-muted/50">
+                            <CardHeader>
+                                <CardDescription className="flex items-center gap-2">
+                                    <Users className="size-4" />
+                                    Shop owners
+                                </CardDescription>
+                                <CardTitle className="text-3xl">
+                                    {stats.shopOwners}
+                                </CardTitle>
+                            </CardHeader>
+                        </Card>
+                    </Link>
                 </div>
             </div>
         </>
