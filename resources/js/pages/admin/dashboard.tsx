@@ -1,5 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
-import { Users } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+import { Store, Users } from 'lucide-react';
 import Heading from '@/components/heading';
 import {
     Card,
@@ -8,12 +9,46 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import admin from '@/routes/admin';
+import type { RouteDefinition } from '@/wayfinder';
 
 type Props = {
     stats: {
         shopOwners: number;
+        shops: number;
+        activeShops: number;
     };
 };
+
+function StatCard({
+    label,
+    value,
+    hint,
+    icon: Icon,
+    href,
+}: {
+    label: string;
+    value: number;
+    hint?: string;
+    icon: LucideIcon;
+    href: RouteDefinition<'get'>;
+}) {
+    return (
+        <Link href={href}>
+            <Card className="h-full transition-colors hover:bg-muted/50">
+                <CardHeader>
+                    <CardDescription className="flex items-center gap-2">
+                        <Icon className="size-4" />
+                        {label}
+                    </CardDescription>
+                    <CardTitle className="text-3xl">{value}</CardTitle>
+                    {hint && (
+                        <p className="text-xs text-muted-foreground">{hint}</p>
+                    )}
+                </CardHeader>
+            </Card>
+        </Link>
+    );
+}
 
 export default function AdminDashboard({ stats }: Props) {
     return (
@@ -25,19 +60,19 @@ export default function AdminDashboard({ stats }: Props) {
                     description="Manage shops, products and shop owner accounts."
                 />
                 <div className="grid gap-4 md:grid-cols-3">
-                    <Link href={admin.shopOwners.index()}>
-                        <Card className="transition-colors hover:bg-muted/50">
-                            <CardHeader>
-                                <CardDescription className="flex items-center gap-2">
-                                    <Users className="size-4" />
-                                    Shop owners
-                                </CardDescription>
-                                <CardTitle className="text-3xl">
-                                    {stats.shopOwners}
-                                </CardTitle>
-                            </CardHeader>
-                        </Card>
-                    </Link>
+                    <StatCard
+                        label="Shops"
+                        value={stats.shops}
+                        hint={`${stats.activeShops} active`}
+                        icon={Store}
+                        href={admin.shops.index()}
+                    />
+                    <StatCard
+                        label="Shop owners"
+                        value={stats.shopOwners}
+                        icon={Users}
+                        href={admin.shopOwners.index()}
+                    />
                 </div>
             </div>
         </>

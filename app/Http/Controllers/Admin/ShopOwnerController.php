@@ -25,6 +25,7 @@ class ShopOwnerController extends Controller
                     ->where('name', 'like', "%{$search}%")
                     ->orWhere('email', 'like', "%{$search}%")
             ))
+            ->withCount('shops')
             ->latest()
             ->paginate(10)
             ->withQueryString()
@@ -32,6 +33,7 @@ class ShopOwnerController extends Controller
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
+                'shops_count' => $user->shops_count,
                 'created_at' => $user->created_at?->toDateString(),
             ]);
 
@@ -83,6 +85,15 @@ class ShopOwnerController extends Controller
 
     public function destroy(User $shopOwner): RedirectResponse
     {
+        if ($shopOwner->shops()->exists()) {
+            Inertia::flash('toast', [
+                'type' => 'error',
+                'message' => __('This shop owner still owns shops. Reassign or delete their shops first.'),
+            ]);
+
+            return back();
+        }
+
         $shopOwner->delete();
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Shop owner deleted.')]);

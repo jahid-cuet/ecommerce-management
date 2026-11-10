@@ -2,6 +2,7 @@
 
 use App\Enums\UserRole;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ShopController;
 use App\Http\Controllers\Admin\ShopOwnerController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -18,4 +19,5 @@ Route::middleware(['auth', 'verified', 'role:admin'])
         Route::get('dashboard', DashboardController::class)->name('dashboard');
 
         Route::resource('shop-owners', ShopOwnerController::class)->except('show');
+        Route::resource('shops', ShopController::class)->except('show');
     });

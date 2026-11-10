@@ -68,6 +68,7 @@ export default function ShopOwnersIndex({ shopOwners, filters }: Props) {
                             <tr>
                                 <th className="px-4 py-3 font-medium">Name</th>
                                 <th className="px-4 py-3 font-medium">Email</th>
+                                <th className="px-4 py-3 font-medium">Shops</th>
                                 <th className="px-4 py-3 font-medium">
                                     Created
                                 </th>
@@ -83,6 +84,9 @@ export default function ShopOwnersIndex({ shopOwners, filters }: Props) {
                                         {owner.name}
                                     </td>
                                     <td className="px-4 py-3">{owner.email}</td>
+                                    <td className="px-4 py-3">
+                                        {owner.shops_count}
+                                    </td>
                                     <td className="px-4 py-3 text-muted-foreground">
                                         {owner.created_at}
                                     </td>
@@ -107,7 +111,11 @@ export default function ShopOwnersIndex({ shopOwners, filters }: Props) {
                                                     owner.id,
                                                 )}
                                                 title={`Delete ${owner.name}?`}
-                                                description="This permanently deletes the shop owner's account."
+                                                description={
+                                                    owner.shops_count > 0
+                                                        ? `${owner.name} still owns ${owner.shops_count} shop(s). Reassign or delete those shops first.`
+                                                        : "This permanently deletes the shop owner's account."
+                                                }
                                             >
                                                 <Button
                                                     variant="ghost"
@@ -124,7 +132,7 @@ export default function ShopOwnersIndex({ shopOwners, filters }: Props) {
                             {shopOwners.data.length === 0 && (
                                 <tr>
                                     <td
-                                        colSpan={4}
+                                        colSpan={5}
                                         className="px-4 py-10 text-center text-muted-foreground"
                                     >
                                         {filters.search
