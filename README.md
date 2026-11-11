@@ -14,11 +14,11 @@ A small multi-shop e-commerce system built with **Laravel 13**, **React 19 (Iner
 - [Installation](#installation)
 - [Demo accounts](#demo-accounts)
 - [Try it out](#try-it-out)
+- [Running with Docker (optional)](#running-with-docker-optional)
 - [Data model](#data-model)
 - [Design decisions](#design-decisions)
 - [Running tests](#running-tests)
 - [Project structure](#project-structure)
-- [Running with Docker (optional)](#running-with-docker-optional)
 
 ## Features
 
@@ -163,6 +163,31 @@ The demo catalog has 11 products. The seed data covers each rule in the assignme
 2. **As a shop owner:** log in as `owner@example.com` and open **My shops → Gadget Hub → Add from catalog**. Add Steel Water Bottle with your own price. It now appears in the storefront. Try **New catalog product** to add a product of your own.
 3. **As an admin:** log in as `admin@example.com`. Create a shop owner, give them a shop, and manage the catalog.
 
+## Running with Docker (optional)
+
+If you prefer not to install PHP, Composer, Node.js and MySQL, you can run the project with [Docker](https://docs.docker.com/get-docker/) instead of following the installation steps above.
+
+```bash
+git clone https://github.com/jahid-cuet/ecommerce-management.git
+cd ecommerce-management
+docker compose up --build
+```
+
+The first build takes a few minutes. When the log shows `Ready on http://localhost:8000`, open **http://localhost:8000** and log in with one of the [demo accounts](#demo-accounts).
+
+On first start, the container sets up everything automatically: it creates `.env` and the app key, waits for MySQL, runs the migrations, seeds the demo data and links the storage folder. Later starts keep your data and do not seed again.
+
+| Task                                          | Command                                                                      |
+| --------------------------------------------- | ---------------------------------------------------------------------------- |
+| Run in the background                         | `docker compose up -d --build`                                               |
+| Stop                                          | `docker compose down`                                                        |
+| Reset all data (database and uploaded images) | `docker compose down -v`, then `docker compose up`                           |
+| Use another port if 8000 is taken             | `APP_PORT=8080 docker compose up`                                            |
+| Run the tests inside the container            | `docker compose exec app php artisan test`                                   |
+| Open a MySQL shell                            | `docker compose exec mysql mysql -u ecommerce -psecret ecommerce_management` |
+
+MySQL runs only inside Docker and is not published on your machine, so it does not clash with a MySQL server you already have on port 3306.
+
 ## Data model
 
 ```
@@ -230,28 +255,3 @@ routes/
   web.php  admin.php  owner.php
 tests/Feature/                       Pest feature tests
 ```
-
-## Running with Docker (optional)
-
-If you prefer not to install PHP, Composer, Node.js and MySQL, you can run the project with [Docker](https://docs.docker.com/get-docker/) instead of following the installation steps above.
-
-```bash
-git clone https://github.com/jahid-cuet/ecommerce-management.git
-cd ecommerce-management
-docker compose up --build
-```
-
-The first build takes a few minutes. When the log shows `Ready on http://localhost:8000`, open **http://localhost:8000** and log in with one of the [demo accounts](#demo-accounts).
-
-On first start, the container sets up everything automatically: it creates `.env` and the app key, waits for MySQL, runs the migrations, seeds the demo data and links the storage folder. Later starts keep your data and do not seed again.
-
-| Task                                          | Command                                                                      |
-| --------------------------------------------- | ---------------------------------------------------------------------------- |
-| Run in the background                         | `docker compose up -d --build`                                               |
-| Stop                                          | `docker compose down`                                                        |
-| Reset all data (database and uploaded images) | `docker compose down -v`, then `docker compose up`                           |
-| Use another port if 8000 is taken             | `APP_PORT=8080 docker compose up`                                            |
-| Run the tests inside the container            | `docker compose exec app php artisan test`                                   |
-| Open a MySQL shell                            | `docker compose exec mysql mysql -u ecommerce -psecret ecommerce_management` |
-
-MySQL runs only inside Docker and is not published on your machine, so it does not clash with a MySQL server you already have on port 3306.
