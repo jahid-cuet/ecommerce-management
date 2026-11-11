@@ -1,0 +1,53 @@
+# Run the whole project with: docker compose up
+# Then open http://localhost:8000 (set APP_PORT to use another port).
+
+services:
+    app:
+        build: .
+        image: ecommerce-management-app
+        ports:
+            - '${APP_PORT:-8000}:8000'
+        environment:
+            APP_URL: 'http://localhost:${APP_PORT:-8000}'
+            DB_CONNECTION: mysql
+            DB_HOST: mysql
+            DB_PORT: 3306
+            DB_DATABASE: ecommerce_management
+            DB_USERNAME: ecommerce
+            DB_PASSWORD: secret
+        volumes:
+            # Uploaded thumbnails survive container rebuilds.
+            - app-uploads:/var/www/html/storage/app/public
+        depends_on:
+            mysql:
+                condition: service_healthy
+        restart: unless-stopped
+
+    mysql:
+        image: mysql:8.4
+        environment:
+            MYSQL_DATABASE: ecommerce_management
+            MYSQL_USER: ecommerce
+            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: secret
+        volumes:
+            - mysql-data:/var/lib/mysql
+        healthcheck:
+            test:
+                [
+                    'CMD',
+                    'mysqladmin',
+                    'ping',
+                    '-h',
+                    '127.0.0.1',
+                    '-uroot',
+                    '-psecret',
+                ]
+            interval: 5s
+            timeout: 5s
+            retries: 20
+        restart: unless-stopped
+
+volumes:
+    mysql-data:
+    app-uploads:
